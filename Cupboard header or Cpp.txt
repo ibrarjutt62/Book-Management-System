@@ -1,0 +1,48 @@
+Cupboard.h
+
+#include <iostream>
+#include <vector>
+using namespace std;
+class Cupboard
+{
+public:
+	Cupboard(int);
+	int capacity;
+	vector <int> Category;
+	vector <int> Books;
+	void AddBook(int,int);
+	void printCupboard();
+};
+
+Cupboard.cpp
+
+#include "Cupboard.h"
+
+
+Cupboard::Cupboard(int c)
+{
+	capacity = c;
+}
+
+void Cupboard::AddBook(int c, int b)
+{
+	capacity = capacity - b;
+	Category.push_back(c);
+	Books.push_back(b);
+}
+
+void Cupboard::printCupboard()
+{
+	
+	static int count = 1;
+	cout << "Remaining capacity of Cupboard "<< count <<" : " << " "<< capacity << endl;
+	count++;
+	
+	for (int i = 0; i < Books.size(); i++)
+	{
+		cout << "Catagory " << Category[i]+1 << " book " << Books[i] << endl;
+	}
+}
+
+
+
