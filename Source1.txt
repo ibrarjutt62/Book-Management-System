@@ -1,0 +1,77 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include "Cupboard.h"
+using namespace std;
+int main() {
+	int n, x , cn;
+	cout << "Enter no of Cupboards:";
+	cin >> n;
+	cout << "Enter capacity of Cupboards:";
+	cin >> cn;
+	cout << "Enter the No of catagories:";
+	cin >> x;
+	vector <int> books;
+	vector <Cupboard> cupboards;
+	for (int a = 1; a <= n; a++)
+	{
+		cupboards.push_back(Cupboard(cn));
+	}
+	for (int b = 1; b <= x; b++)
+	{
+		cout << "Enter books of catagory " << b << " :";
+		int e;
+		cin >> e;
+		books.push_back(e);
+		std::sort(books.begin(), books.end());
+	}
+	int i=0, j=0;
+	while (i<books.size() && j < cupboards.size())
+	{
+		if (books[i] <= cupboards[j].capacity)
+		{
+			cupboards[j].AddBook(i, books[i]);
+			if (cupboards[j].capacity == 0)
+			{
+				j++;
+			}
+			i++;
+		}
+		else
+			//(books[i] >= cupboards[j].capacity);
+		{
+			if (cupboards[j].Category.size() == 0)
+			{
+				int rem = books[i] - cupboards[j].capacity;
+				cupboards[j].AddBook(i, cupboards[j].capacity);
+				j++;
+				while (rem > 0 && j < cupboards.size())
+				{
+					int nrem = rem - cupboards[j].capacity;
+					if (nrem < 0)
+					{
+						cupboards[j].AddBook(i, rem);
+						j++;
+						rem = 0;
+					}
+					else
+					{
+						int crem = rem - cupboards[j].capacity;
+						cupboards[j].AddBook(i, rem - crem);
+						j++;
+						rem = crem;
+					}
+				}
+				i++;
+			}
+			else
+			{
+				j++;
+			}
+		}
+	}
+	for (i = 0; i < cupboards.size(); i++)
+	{
+		cupboards[i].printCupboard();
+	}
+}
